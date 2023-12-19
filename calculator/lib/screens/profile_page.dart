@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shesafe/chat.dart';
 import 'package:shesafe/screens/login_screens/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -241,7 +242,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20,),
                   GestureDetector(
                     onTap: (){
-                      _launchURL2(); // Call the function to open the link
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ChatApp()));
+
 
                     },
                     child: Padding(

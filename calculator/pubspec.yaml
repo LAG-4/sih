@@ -49,7 +49,7 @@ dependencies:
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   camera: ^0.10.5+7
-  webview_flutter: ^2.0.13
+  flutter_inappwebview: ^5.8.0
 
 
 
