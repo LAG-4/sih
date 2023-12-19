@@ -191,24 +191,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    textAlign: TextAlign.center,
-                    controller: _collegeController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(
-                        color: Colors.grey[600],
-                      ),
-                      hintText: "Enter University Name",
-                      fillColor: Colors.white70,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance.collection('colleges').snapshots(),
                     builder: (context, snapshot) {

@@ -206,7 +206,7 @@ class _LoginUserState extends State<LoginUser> {
 
                 TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> APICall()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpScreen()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
