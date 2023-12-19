@@ -20,6 +20,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  String? _selectedUniversity;
+  List<String> _universities = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late TextEditingController _fullNameController;
@@ -39,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
     _collegeController = TextEditingController();
+
   }
   @override
   void dispose() {
@@ -202,6 +205,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: "Enter University Name",
                       fillColor: Colors.white70,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('colleges').snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator(); // Display a loading indicator while fetching data
+                      }
+
+                      _universities = snapshot.data!.docs.map((doc) => doc.id).toList();
+
+                      print(_universities);
+                      // Set an initial value for _selectedUniversity
+                      _selectedUniversity ??= _universities.isNotEmpty ? _universities[0] : null;
+
+                      print(_selectedUniversity);
+                      print(snapshot.data);
+                      return DropdownButtonFormField(
+                        value: _selectedUniversity,
+                        items: _universities.map((university) {
+                          return DropdownMenuItem(
+                            value: university,
+                            child: Text(university),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedUniversity = value as String?; // Use the null-aware cast
+                          });
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          filled: true,
+                          hintText: "Select University",
+                          fillColor: Colors.white70,
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 10,
