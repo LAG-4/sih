@@ -57,17 +57,22 @@ class APICall extends StatefulWidget {
 }
 
 class _APICallState extends State<APICall> {
-  final String apiUrl = 'https://jsonplaceholder.typicode.com/posts';
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  String result = ''; // To store the result from the API call
-
+  late TextEditingController _adhaarController;
+  @override
+  void initState() {
+    super.initState();
+    _adhaarController = TextEditingController();
+  }
   @override
   void dispose() {
-    nameController.dispose();
-    emailController.dispose();
+    _adhaarController.dispose();
+
     super.dispose();
   }
+
+  final String apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+  String result = ''; // To store the result from the API call
 
   Future<void> _postData() async {
     try {
@@ -77,7 +82,7 @@ class _APICallState extends State<APICall> {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          "aadhar_number": '812948231386'
+          "aadhar_number": _adhaarController.text,
         }),
       );
 
@@ -105,22 +110,31 @@ class _APICallState extends State<APICall> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('POST Request Example'),
-      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text('Verify your Adhaar'),
             TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              textAlign: TextAlign.center,
+              controller: _adhaarController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                filled: true,
+                hintStyle: TextStyle(
+                  color: Colors.grey[600],
+                ),
+                hintText: "Enter your Adhaar",
+                fillColor: Colors.white70,
+              ),
             ),
             ElevatedButton(
               onPressed:_postData,

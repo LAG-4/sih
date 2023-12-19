@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shesafe/screens/signup_screen.dart';
+import 'package:shesafe/test.dart';
 
 import '../../utils/colors.dart';
 import '../home_screen.dart';
@@ -205,7 +206,7 @@ class _LoginUserState extends State<LoginUser> {
 
                 TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AdhaarVerify()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

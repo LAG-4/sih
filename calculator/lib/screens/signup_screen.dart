@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shesafe/screens/home_screen.dart';
 import 'package:shesafe/screens/login_screens/login_screen.dart';
 import '../utils/colors.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
-  late TextEditingController _adhaarController;
+
   late TextEditingController _collegeController;
 
 
@@ -35,7 +38,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
-    _adhaarController = TextEditingController();
     _collegeController = TextEditingController();
   }
   @override
@@ -44,7 +46,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _adhaarController.dispose();
     _collegeController.dispose();
     super.dispose();
   }
@@ -120,7 +121,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           'fullName': _fullNameController.text,
           'email': email,
           'college': _collegeController.text,
-          'adhaarNo': _adhaarController.text,
           'role': 'user',
           // Add other user data you want to store...
         });
@@ -225,22 +225,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    textAlign: TextAlign.center,
-                    controller: _adhaarController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      filled: true,
-                      hintStyle: TextStyle(
-                        color: Colors.grey[600],
-                      ),
-                      hintText: "Enter your Adhaar Number",
-                      fillColor: Colors.white70,
-                    ),
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -310,9 +294,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-        
+
                   const SizedBox(height: 15,),
-        
+
                   TextButton(
                     onPressed: (){
                       Navigator.pop(context);
@@ -327,9 +311,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: Colors.black,
                           ),
                         ),
-        
+
                         SizedBox(width: 5,),
-        
+
                         Text(
                           'Log In',
                           style: TextStyle(
@@ -341,7 +325,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-        
+
                 ],
               ),
             ),
