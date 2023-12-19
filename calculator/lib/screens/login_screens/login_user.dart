@@ -206,7 +206,7 @@ class _LoginUserState extends State<LoginUser> {
 
                 TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AdhaarVerify()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> APICall()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

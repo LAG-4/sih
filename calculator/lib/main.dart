@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(home: Scaffold(body: APICall())));
+  runApp(MyApp());
 
 }
 
