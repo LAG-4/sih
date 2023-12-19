@@ -85,22 +85,23 @@ class _ProtectorSignupState extends State<ProtectorSignup> {
       if (userCredential.user != null) {
         // Registration successful, save user data to Firestore
         await _firestore.collection('protector').doc(userCredential.user!.uid).set({
-          'fullName': _fullNameController.text,
+          'fullName': _fullNameController.text.toUpperCase(),
           'email': _emailController.text,
           'phone': _phonenumberController.text,
-          'department': _departmentController.text,
+          'department': _departmentController.text.toUpperCase(),
 
         });
-      String  test= _fullNameController.text;
-      String dep = _departmentController.text;
+      String  test= _fullNameController.text.toUpperCase();
+      String dep = _departmentController.text.toUpperCase();
         await _firestore.collection('colleges').doc(test).collection(dep).add({
-          'name': _nameController.text,
+          'email': _emailController.text,
+          'number':_phonenumberController.text
 
         });
-        await _firestore.collection('colleges').doc(test).set({
-          'userId': _fullNameController.text,
-
-        });
+        // await _firestore.collection('colleges').doc(test).set({
+        //   '': _fullNameController.text,
+        //
+        // });
 
         // Navigate to home screen after successful registration
         Navigator.pushReplacement(
