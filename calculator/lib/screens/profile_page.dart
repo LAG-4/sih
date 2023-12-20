@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +20,24 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<Map<String, dynamic>> _getUserData() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+        // Use null-aware operator to safely access data
+        return userDoc.data() as Map<String, dynamic>? ?? {};
+      }
+      return {};
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return {};
+    }
+  }
+
+
   Future<void> _signOut(BuildContext context) async {
     try {
       await _auth.signOut();
@@ -85,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const Text(
                         'Profile',
                         style: TextStyle(
-                          fontSize: 30
+                            fontSize: 30
                         ),
                       ),
                     ],
@@ -118,100 +137,118 @@ class _ProfilePageState extends State<ProfilePage> {
                       const BorderRadius.all(Radius.circular(40)),
                     ),
 
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              'Verified User',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 20
-                              ),
-                            ),
-
-                            SizedBox(width: 5,),
-
-                            FaIcon(FontAwesomeIcons.check, size: 20, color: Colors.green,),
-                          ],
-                        ),
-
-                        const SizedBox(height: 10,),
-                        const Divider(thickness: 1.5,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
+                    child: FutureBuilder(
+                      future: _getUserData(),
+                      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Center(
+                            child: Text('No data available'),
+                          );
+                        } else {
+                          final userData = snapshot.data!;
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              SizedBox(height: 20,),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
                                   Text(
-                                    'Name:',
+                                    'Verified User',
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.green,
                                         fontSize: 20
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Aryan Gupta',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20
-                                      ),
-                                    ),
-                                  ),
+                                  SizedBox(width: 5,),
+                                  FaIcon(FontAwesomeIcons.check, size: 20, color: Colors.green,),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'E-mail id:   ',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20
+                              const SizedBox(height: 10,),
+                              const Divider(thickness: 1.5,),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Name:',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text(
+                                            // Display the user's name
+                                            userData['fullName'] ?? '',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Text(
-                                    'aryan@gmail.com',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'E-mail id:   ',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                        Text(
+                                          // Display the user's email
+                                          userData['email'] ?? '',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Phone No: ',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'College ',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                        Text(
+                                          // Display the user's phone number
+                                          userData['college'] ?? '',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-
-                                  Text(
-                                    '+91 92XXXXXXXX',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
-                          ),
-                        ),
-                      ],
+                          );
+                        }
+                      },
                     ),
                   ),
 
@@ -245,7 +282,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   GestureDetector(
                     onTap: (){
                       _launchURL2();
-                      },
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -271,7 +308,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   GestureDetector(
                     onTap: (){
 
-                      _launchURL3(); },
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          TextEditingController urlController = TextEditingController();
+                          TextEditingController descriptionController = TextEditingController();
+
+                          return AlertDialog(
+                            title: Text('Add Image'),
+                            content: IntrinsicHeight(
+                              child: Column(
+                                children: [
+                                  // Text field for URL
+                                  TextField(
+                                    controller: urlController,
+                                    decoration: InputDecoration(labelText: 'Image URL'),
+                                  ),
+                                  // Text field for description
+                                  TextField(
+                                    controller: descriptionController,
+                                    decoration: InputDecoration(labelText: 'Description'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () async {
+                                  // Access the values entered in the text fields
+                                  String imageUrl = urlController.text;
+                                  String description = descriptionController.text;
+
+                                  // Handle the values as needed (e.g., validate, save, etc.)
+
+                                  await FirebaseFirestore.instance.collection('review').add({
+                                    'url': imageUrl,
+                                    'description': description,
+                                  });
+                                  // Close the dialog
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      // _launchURL3();
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(

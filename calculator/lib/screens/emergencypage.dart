@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -14,8 +15,8 @@ class EmergencyPage extends StatefulWidget {
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {
-  final String apiU = 'http://20.0.4.23:5000/send_alert'; // Replace with your Flask API endpoint
-  final String fixedRecipientNumber = '+919267913652';
+  final String apiU = 'http://20.0.27.38:5000/send_alert'; // Replace with your Flask API endpoint
+  final String fixedRecipientNumber = '+916303082900';
   final quickActions = QuickActions();
   @override
   void initState(){
@@ -43,7 +44,9 @@ class _EmergencyPageState extends State<EmergencyPage> {
     });
   }
 
-  get http => null; // Replace with your fixed recipient number
+
+
+  http.Client client = http.Client();
 
   Future<void> sendAlert() async {
     try {
@@ -71,28 +74,8 @@ class _EmergencyPageState extends State<EmergencyPage> {
     }
   }
 
-  Future<void> sendMessage(String locationLink) async {
-    var url = Uri.parse('YOUR_FLASK_SERVER_URL/send-message'); // Replace with your server URL
-    var body = jsonEncode({'location_link': locationLink});
 
-    try {
-      var response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: body,
-      );
-
-      if (response.statusCode == 200) {
-        print('Message sent successfully!');
-      } else {
-        print('Failed to send message: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
-  final String apiUrl = 'http://192.168.29.193:5000/make_call'; // Replace with your Flask API endpoint
+  final String apiUrl = 'http://20.0.27.38:5000/make_call'; // Replace with your Flask API endpoint
   Future<void> makeEmergencyCall() async {
     try {
       final response = await http.post(
@@ -115,7 +98,6 @@ class _EmergencyPageState extends State<EmergencyPage> {
       print('Error: $e');
     }
   }
-
 
 
   @override
@@ -192,7 +174,6 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
             GestureDetector(
               onTap: (){
-                print("SUCCESS");
                 sendAlert();
               },
               child: Container(
@@ -225,7 +206,9 @@ class _EmergencyPageState extends State<EmergencyPage> {
             //high
 
             GestureDetector(
-              onTap: (){makeEmergencyCall();},
+              onTap: (){
+
+              },
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -258,8 +241,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
             GestureDetector(
               onTap: (){
-                sendAlert();
-                makeEmergencyCall();
+
               },
               child: Container(
                 width: double.infinity,

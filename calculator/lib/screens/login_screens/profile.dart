@@ -61,9 +61,30 @@ class _ContactsPageState extends State<ContactsPage> {
             final name = contact['name'];
             final phoneNumber = contact['phone_number'];
             contactWidgets.add(
-              ListTile(
-                title: Text(name),
-                subtitle: Text(phoneNumber),
+              Padding(
+                padding: EdgeInsets.all(5),
+
+                // child: ListTile(
+                //   title: Text(name),
+                //   subtitle: Text(phoneNumber),
+                // ),
+                child: Container(
+                  decoration:  BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
+                    color: Colors.pink.shade100,
+                  ),
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: [
+                      Text(name.toUpperCase(),style: TextStyle(fontSize: 20),),Text(phoneNumber,style: TextStyle(fontSize: 20),),
+                    ],),
+                  ),
+                ),
               ),
             );
           }
