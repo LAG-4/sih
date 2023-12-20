@@ -2,6 +2,7 @@ import 'dart:convert';
 
 
 import 'package:flutter/material.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 import 'calculator.dart';
 
@@ -15,6 +16,32 @@ class EmergencyPage extends StatefulWidget {
 class _EmergencyPageState extends State<EmergencyPage> {
   final String apiU = 'http://20.0.4.23:5000/send_alert'; // Replace with your Flask API endpoint
   final String fixedRecipientNumber = '+919267913652';
+  final quickActions = QuickActions();
+  @override
+  void initState(){
+    super.initState();
+    quickActions.setShortcutItems([
+      ShortcutItem(type: 'LOW', localizedTitle: 'LOW') ,
+      ShortcutItem(type: 'HIGH', localizedTitle: 'HIGH'),
+      ShortcutItem(type: 'SEVERE', localizedTitle: 'SEVERE'),
+    ]);
+    quickActions.initialize((type) {
+      if(type=='LOW')
+      {
+        sendAlert();
+      }
+      if(type=='HIGH')
+      {
+        makeEmergencyCall();
+      }
+      if(type=='SEVERE')
+      {
+        sendAlert();
+        makeEmergencyCall();
+      }
+
+    });
+  }
 
   get http => null; // Replace with your fixed recipient number
 
@@ -165,6 +192,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
             GestureDetector(
               onTap: (){
+                print("SUCCESS");
                 sendAlert();
               },
               child: Container(

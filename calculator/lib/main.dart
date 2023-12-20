@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:shesafe/screens/calculator.dart';
 
 import 'package:firebase_core/firebase_core.dart';
