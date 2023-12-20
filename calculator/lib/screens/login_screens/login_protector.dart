@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shesafe/protectorhome.dart';
 import 'package:shesafe/screens/protector_signup.dart';
 import 'package:shesafe/screens/signup_screen.dart';
 import 'package:shesafe/test.dart';
@@ -55,7 +56,7 @@ class _LoginProtectorState extends State<LoginProtector> {
         // Navigate to the home screen after successful login
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => ProtectorHome()),
         );
       }
     } catch (e) {

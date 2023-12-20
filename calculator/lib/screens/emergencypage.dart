@@ -4,19 +4,18 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:shake/shake.dart';
 
 import 'calculator.dart';
 
 class EmergencyPage extends StatefulWidget {
-  EmergencyPage({super.key});
+   EmergencyPage({super.key});
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {
-  final String apiU = 'http://20.0.27.38:5000/send_alert'; // Replace with your Flask API endpoint
+  final String apiU = 'http://127.0.0.1:5000/send_alert'; // Replace with your Flask API endpoint
   final String fixedRecipientNumber = '+916303082900';
   final quickActions = QuickActions();
   @override
@@ -43,24 +42,9 @@ class _EmergencyPageState extends State<EmergencyPage> {
       }
 
     });
-    ShakeDetector.autoStart(
-      onPhoneShake: () {
-        print("shaky");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Shake!'),
-          ),
-        );
-        makeEmergencyCall();
-        print("aajaaaa");
-        // Do stuff on phone shake
-      },
-      minimumShakeCount: 2,
-      shakeSlopTimeMS: 500,
-      shakeCountResetTime: 3000,
-      shakeThresholdGravity: 2.7,
-    );
   }
+
+
 
   http.Client client = http.Client();
 
@@ -91,7 +75,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
   }
 
 
-  final String apiUrl = 'http://20.0.27.38:5000/make_call'; // Replace with your Flask API endpoint
+  final String apiUrl = 'http://127.0.0.1:5000/make_call'; // Replace with your Flask API endpoint
   Future<void> makeEmergencyCall() async {
     try {
       final response = await http.post(

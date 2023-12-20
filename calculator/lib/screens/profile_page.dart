@@ -285,7 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Start a Private Chat',style: TextStyle(fontSize: 20),),
+                              Text('Go to community chat',style: TextStyle(fontSize: 20),),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: IconButton(onPressed: (){}, icon: IconButton(onPressed: (){}, icon: Icon(Icons.person_2_rounded,size: 35,))),

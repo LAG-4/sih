@@ -37,7 +37,7 @@ class _APICallState extends State<APICall> {
   Future<void> _postData() async {
     try {
       final response = await http.post(
-        Uri.parse("http://20.0.27.38:5000/verifyAadhaar"),
+        Uri.parse("http://20.0.27.38:8000/verifyAadhaar"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
