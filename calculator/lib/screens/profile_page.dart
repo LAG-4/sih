@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -271,7 +272,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   GestureDetector(
                     onTap: (){
 
-                      _launchURL3(); },
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          TextEditingController urlController = TextEditingController();
+                          TextEditingController descriptionController = TextEditingController();
+
+                          return AlertDialog(
+                            title: Text('Add Image'),
+                            content: IntrinsicHeight(
+                              child: Column(
+                                children: [
+                                  // Text field for URL
+                                  TextField(
+                                    controller: urlController,
+                                    decoration: InputDecoration(labelText: 'Image URL'),
+                                  ),
+                                  // Text field for description
+                                  TextField(
+                                    controller: descriptionController,
+                                    decoration: InputDecoration(labelText: 'Description'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () async {
+                                  // Access the values entered in the text fields
+                                  String imageUrl = urlController.text;
+                                  String description = descriptionController.text;
+
+                                  // Handle the values as needed (e.g., validate, save, etc.)
+
+                                  await FirebaseFirestore.instance.collection('review').add({
+                                    'url': imageUrl,
+                                    'description': description,
+                                  });
+                                  // Close the dialog
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      // _launchURL3();
+                      },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
