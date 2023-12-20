@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shesafe/chat.dart';
+import 'package:shesafe/report.dart';
 import 'package:shesafe/screens/login_screens/profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,7 +43,15 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
   _launchURL2() async {
-    const url = 'https://mail.google.com/chat/u/0/#onboarding'; // Replace with the URL you want to open
+    const url = 'https://react-chat-app-kohl.vercel.app/app'; // Replace with the URL you want to open
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  _launchURL3() async {
+    const url = 'https://drive.google.com/drive/folders/1jN_LW3r6AvKeI_ig9Y9yEYduf7CZDmFn?usp=sharing'; // Replace with the URL you want to open
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -70,13 +79,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   Row(
                     children: [
-
-                      IconButton(
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        icon: const FaIcon(FontAwesomeIcons.circleArrowLeft, size: 30,)
-                      ),
 
                       const SizedBox(width: 20,),
 
@@ -242,11 +244,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20,),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ChatApp()));
-
-
-                    },
+                      _launchURL2();
+                      },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -260,7 +259,33 @@ class _ProfilePageState extends State<ProfilePage> {
                               Text('Start a Private Chat',style: TextStyle(fontSize: 20),),
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: IconButton(onPressed: (){}, icon: IconButton(onPressed: (){}, icon: Icon(Icons.chat_bubble,size: 35,))),
+                                child: IconButton(onPressed: (){}, icon: IconButton(onPressed: (){}, icon: Icon(Icons.person_2_rounded,size: 35,))),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  GestureDetector(
+                    onTap: (){
+
+                      _launchURL3(); },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Upload abuse proof',style: TextStyle(fontSize: 20),),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: IconButton(onPressed: (){}, icon: IconButton(onPressed: (){}, icon: Icon(Icons.warning_rounded,size: 35,))),
                               )
                             ],
                           ),
