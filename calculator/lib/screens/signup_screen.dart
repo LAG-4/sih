@@ -123,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
           'fullName': _fullNameController.text,
           'email': email,
-          'college': _collegeController.text,
+          'college': _selectedUniversity,
           'role': 'user',
           // Add other user data you want to store...
         });
