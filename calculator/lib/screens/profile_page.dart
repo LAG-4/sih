@@ -128,14 +128,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     width: double.infinity,
                     height: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black,
-                      ),
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(40)),
-                    ),
 
                     child: FutureBuilder(
                       future: _getUserData(),
@@ -174,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               const SizedBox(height: 10,),
-                              const Divider(thickness: 1.5,),
+
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -378,10 +370,17 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> ContactsPage()));}, child: Text('Profile')),
-                  ElevatedButton(onPressed: (){
-                    _signOut(context);
-                  }, child: Text('LOGOUT'))
+                  SizedBox(height: 20,),
+                  Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _signOut(context);
+                      },
+                      child: Text('LOGOUT',style: TextStyle(color: Colors.black),),
+                    ),
+                  )
+
                 ],
 
               ),

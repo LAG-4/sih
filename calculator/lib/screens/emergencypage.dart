@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:shake/shake.dart';
 
 import 'calculator.dart';
 
 class EmergencyPage extends StatefulWidget {
-   EmergencyPage({super.key});
+  EmergencyPage({super.key});
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
@@ -42,9 +43,24 @@ class _EmergencyPageState extends State<EmergencyPage> {
       }
 
     });
+    ShakeDetector.autoStart(
+      onPhoneShake: () {
+        print("shaky");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Shake!'),
+          ),
+        );
+        makeEmergencyCall();
+        print("aajaaaa");
+        // Do stuff on phone shake
+      },
+      minimumShakeCount: 2,
+      shakeSlopTimeMS: 500,
+      shakeCountResetTime: 3000,
+      shakeThresholdGravity: 2.7,
+    );
   }
-
-
 
   http.Client client = http.Client();
 
@@ -207,7 +223,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
             GestureDetector(
               onTap: (){
-
+                makeEmergencyCall();
               },
               child: Container(
                 width: double.infinity,
@@ -241,6 +257,8 @@ class _EmergencyPageState extends State<EmergencyPage> {
 
             GestureDetector(
               onTap: (){
+                sendAlert();
+                makeEmergencyCall();
 
               },
               child: Container(

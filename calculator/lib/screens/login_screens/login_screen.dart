@@ -51,12 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 40,),
 
                   CircleAvatar(
-                    radius: 52,
+                    radius: 70,
                     backgroundColor: headingColor,
-                    child: const CircleAvatar(
+                    backgroundImage: NetworkImage('https://github.com/LAG-4/engproj.github.io/blob/main/logo.png?raw=true'),
 
-                      radius: 50,
-                    ),
                   ),
 
                   const SizedBox(height: 10,),
