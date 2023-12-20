@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shesafe/screens/home_screen.dart';
 import 'package:shesafe/screens/login_screens/login_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shesafe/twilio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

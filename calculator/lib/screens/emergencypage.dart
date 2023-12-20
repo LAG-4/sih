@@ -13,7 +13,7 @@ class EmergencyPage extends StatefulWidget {
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {
-  final String apiU = 'http://192.168.29.193:5000/send_alert'; // Replace with your Flask API endpoint
+  final String apiU = 'http://20.0.4.23:5000/send_alert'; // Replace with your Flask API endpoint
   final String fixedRecipientNumber = '+919267913652';
 
   get http => null; // Replace with your fixed recipient number
@@ -43,6 +43,28 @@ class _EmergencyPageState extends State<EmergencyPage> {
       print('Error: $e');
     }
   }
+
+  Future<void> sendMessage(String locationLink) async {
+    var url = Uri.parse('YOUR_FLASK_SERVER_URL/send-message'); // Replace with your server URL
+    var body = jsonEncode({'location_link': locationLink});
+
+    try {
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        print('Message sent successfully!');
+      } else {
+        print('Failed to send message: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   final String apiUrl = 'http://192.168.29.193:5000/make_call'; // Replace with your Flask API endpoint
   Future<void> makeEmergencyCall() async {
     try {

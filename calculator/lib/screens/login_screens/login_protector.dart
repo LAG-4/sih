@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shesafe/screens/protector_signup.dart';
 import 'package:shesafe/screens/signup_screen.dart';
+import 'package:shesafe/test.dart';
 
 import '../../utils/colors.dart';
 import '../home_screen.dart';
@@ -15,7 +17,54 @@ class LoginProtector extends StatefulWidget {
 }
 
 class _LoginProtectorState extends State<LoginProtector> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
   @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController(); // Initialize the _emailController
+    _passwordController = TextEditingController(); // Initialize the _emailController
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+  bool validateEmail(String email) {
+    // Check if the email ends with 'vitap.ac.in'
+    if (email.toLowerCase().endsWith('@vitap.ac.in')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (userCredential.user != null) {
+        // Navigate to the home screen after successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
+    } catch (e) {
+      print('Failed to sign in: $e');
+      // Handle sign-in failures, e.g., show an error message
+    }
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -35,66 +84,14 @@ class _LoginProtectorState extends State<LoginProtector> {
             child: Column(
               children: [
 
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        const Text(
-                          'Current Location',
-                          style: TextStyle(
-                            color: Color(0xffb20202),
-                            fontSize: 15,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.location_on,
-                              size: 17,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Delhi, India',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const FaIcon(
-                        FontAwesomeIcons.solidCircleUser,
-                        size: 35,
-                      ),
-                    ),
-                  ],
-                ),
-
-
                 const SizedBox(
                   height: 100,
                 ),
-
-                const Center(
-                  child: Text(
-                    'LOGIN  AS  PROTECTOR',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w900,
-                    ),
+                const Text(
+                  'LOGIN  AS  PROTECTOR',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
 
@@ -107,6 +104,7 @@ class _LoginProtectorState extends State<LoginProtector> {
                 TextField(
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
+                  controller: _emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -127,6 +125,7 @@ class _LoginProtectorState extends State<LoginProtector> {
                 TextField(
                   textAlign: TextAlign.center,
                   obscureText: true,
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -162,7 +161,7 @@ class _LoginProtectorState extends State<LoginProtector> {
                               vertical: 15, horizontal: 20)),
                     ),
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const HomeScreen()), (route) => false);
+                      _signInWithEmailAndPassword();
                     },
                     child: const Text(
                       'LOGIN',
@@ -177,12 +176,38 @@ class _LoginProtectorState extends State<LoginProtector> {
 
                 const SizedBox(height: 20,),
 
+                TextButton(
+                  onPressed: (){},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      SizedBox(width: 5,),
+
+                      Text(
+                        'Get Help',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
 
 
                 TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ProtectorSignup()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProtectorSignup()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

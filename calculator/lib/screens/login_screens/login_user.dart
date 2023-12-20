@@ -176,37 +176,8 @@ class _LoginUserState extends State<LoginUser> {
                 const SizedBox(height: 20,),
 
                 TextButton(
-                  onPressed: (){},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-
-                      SizedBox(width: 5,),
-
-                      Text(
-                        'Get Help',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-
-
-                TextButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> APICall()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
