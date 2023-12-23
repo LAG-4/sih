@@ -15,7 +15,7 @@ class EmergencyPage extends StatefulWidget {
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {
-  final String apiU = 'http://127.0.0.1:5000/send_alert'; // Replace with your Flask API endpoint
+  final String apiU = 'http://192.168.137.138:5000/send_alert'; // Replace with your Flask API endpoint
   final String fixedRecipientNumber = '+916303082900';
   final quickActions = QuickActions();
   @override
@@ -75,7 +75,7 @@ class _EmergencyPageState extends State<EmergencyPage> {
   }
 
 
-  final String apiUrl = 'http://127.0.0.1:5000/make_call'; // Replace with your Flask API endpoint
+  final String apiUrl = 'http://192.168.137.138:5000/make_call'; // Replace with your Flask API endpoint
   Future<void> makeEmergencyCall() async {
     try {
       final response = await http.post(
